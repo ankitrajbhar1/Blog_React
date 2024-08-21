@@ -16,6 +16,7 @@ export class Service {
 
   async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
+      
       return await this.databases.createDocument(
         conf.appwriteDBId,
         conf.appwriteCollectionId,
@@ -29,7 +30,7 @@ export class Service {
         }
       );
     } catch (error) {
-      throw error;
+      console.log("Appwrite serive :: createPost :: error", error);
     }
   }
 
@@ -112,7 +113,7 @@ export class Service {
     }
   }
 
-  getFilePreview(fileID) {
+  getFilePreview(fileId) {
     return this.buckets.getFilePreview(conf.appwriteBucketId, fileId);
   }
 }

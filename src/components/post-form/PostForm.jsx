@@ -17,9 +17,15 @@ function PostForm({ post }) {
     });
 
     const navigate = useNavigate()
-    const userData = useSelector(state => state.user.userData)
+    const userData = useSelector(state => state.auth.userData)
 
     const submit = async (data) => {
+
+        if (!userData || !userData.$id) {
+            console.error("User data is missing");
+            return;
+        }
+        
         if (post) {
             const file = data.image[0] ? appwriteService.uploadFile(data.image[0]) : null
 
@@ -31,10 +37,10 @@ function PostForm({ post }) {
                 featuredImage: file ? file.$id : undefined,
             })
             if (dbPost) {
-                navigate(`/post/${dbPost.$id}`)
+                navigate(`/post/${dbPost.$id}`);
             }
         } else {
-            const file = data.image[0] ? appwriteService.uploadFile(data.image[0]) : null
+            const file = await appwriteService.uploadFile(data.image[0]);
 
             if (file) {
                 const fileId = file.$id
@@ -52,24 +58,28 @@ function PostForm({ post }) {
     }
 
     const slugTransform = useCallback((value) => {
-        if (value && typeof value === 'string')
+        if (value && typeof value === 'string') {
             return value
                 .trim()
-                .toLowerCase()
-                .replace(/^[a-zA-Z\d\s]+/g, '-')
+                .toLowerCase()                     // Convert to lowercase
+                .replace(/[^a-zA-Z0-9\s-]/g, '')    // Remove special characters
+                .replace(/\s+/g, '-')               // Replace spaces with hyphens
+                .replace(/^-+|-+$/g, '');           // Remove leading or trailing hyphens
+        }
+        return '';
+    }, []);
+    
 
-        return ''
-    },[])
-
-    React.useEffect(()=>{
-        const subscription = watch((value, {name})=>{
-            if(name === 'title'){
-                setValue('slug',slugTransform(value.title,{shouldValidate:true}))
+    React.useEffect(() => {
+        const subscription = watch((value, {name}) => {
+            if (name === 'title') {
+                setValue('slug', slugTransform(value.title), { shouldValidate: true });
             }
-        })
-
-        return subscription.unsubscribe()
-    },[watch,slugTransform,setValue])
+        });
+    
+        return () => subscription.unsubscribe(); // Clean up the subscription on unmount
+    }, [watch, slugTransform, setValue]);
+    
         
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">

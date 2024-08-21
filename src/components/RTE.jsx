@@ -13,6 +13,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                 control={control}
                 render={({ field: { onChange } }) => (
                     <Editor
+                    apiKey='gffxizdo5mxjdkad884uj3mbisz0jy5k6530u5grhby81jyz'
                         initialValue={defaultValue}
                         init={{
                             initialValue: defaultValue,
@@ -42,8 +43,12 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                             ],
                             toolbar:
                                 "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
-                            content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
+                            content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+
+                            api_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+
                         }}
+                        
                         onEditorChange={onChange}
                     />
                 )}
