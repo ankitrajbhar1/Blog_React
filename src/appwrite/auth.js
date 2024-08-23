@@ -59,12 +59,32 @@ export class AuthService {
     // Log out the current user
     async logout() {
         try {
+            // Ensure the user is authenticated
+            if (!this.account) {
+                throw new Error('No active session found.');
+            }
+    
+            // Attempt to delete all sessions
             await this.account.deleteSessions();
+            console.log('User logged out successfully');
+            
+            // Optional: Redirect user or update UI
+            // window.location.href = '/login'; // Adjust as needed
         } catch (error) {
-            console.log("Appwrite service :: logout :: error", error.message || error);
-            throw error;  // Optional: Propagate the error if needed
+            // Log detailed error information
+            console.error('Appwrite service :: logout :: error', {
+                message: error.message || 'An error occurred during logout',
+                stack: error.stack || 'No stack trace available'
+            });
+    
+            // Provide user feedback
+            alert('Logout failed. Please try again later.');
+    
+            // Optional: Propagate the error if needed
+            throw error;
         }
     }
+    
 }
 
 const authService = new AuthService();
