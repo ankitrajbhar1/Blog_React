@@ -67,7 +67,7 @@ function PostForm({ post }) {
                 .replace(/^-+|-+$/g, '');           // Remove leading or trailing hyphens
         }
         return '';
-    }, []);
+    });
     
 
     React.useEffect(() => {
@@ -124,7 +124,7 @@ function PostForm({ post }) {
                     className="mb-4"
                     {...register("status", { required: true })}
                 />
-                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
+                <Button type="submit" bgColor={post ? "bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-600 transition duration-300" : undefined} className="w-full">
                     {post ? "Update" : "Submit"}
                 </Button>
             </div>

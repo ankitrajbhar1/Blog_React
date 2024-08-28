@@ -43,24 +43,30 @@ export default function Post() {
                     />
 
                     {isAuthor && (
-                        <div className="absolute right-6 top-6">
+                        <div className="absolute right-6 top-6 flex space-x-2">
                             <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3">
+                                <button
+                                    className="bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-600 transition duration-300"
+                                >
                                     Edit
-                                </Button>
+                                </button>
                             </Link>
-                            <Button bgColor="bg-red-500" onClick={deletePost}>
+                            <button
+                                className="bg-red-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-red-600 transition duration-300"
+                                onClick={deletePost}
+                            >
                                 Delete
-                            </Button>
+                            </button>
                         </div>
                     )}
+
                 </div>
                 <div className="w-full mb-6">
                     <h1 className="text-2xl font-bold">{post.title}</h1>
                 </div>
                 <div className="browser-css">
                     {parse(post.content)}
-                    </div>
+                </div>
             </Container>
         </div>
     ) : null;

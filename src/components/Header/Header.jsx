@@ -58,7 +58,7 @@ function Header() {
                                 </li>
                             ) : null
                         )}
-                        {authStatus && (
+                        {authStatus && ( //if it is true then it is shown
                             <li>
                                 <LogoutBtn />
                             </li>

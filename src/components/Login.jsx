@@ -11,6 +11,7 @@ function Login() {
     const dispatch = useDispatch()
     const { register, handleSubmit } = useForm()
     const [error, setError] = useState("")
+    
 
     const login = async(data) => {
         setError("")
@@ -26,6 +27,7 @@ function Login() {
         }
     }
 
+   
     return (
         <div
             className='flex items-center m-10 justify-center w-full'
@@ -72,7 +74,7 @@ function Login() {
                         />
                         <Button
                         type="submit"
-                        className="w-full"
+                        className={`w-full `}
                         >Sign in</Button>
                     </div>
                 </form>
