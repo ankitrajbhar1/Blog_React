@@ -7,15 +7,15 @@ import { Outlet } from 'react-router-dom'
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();   //use when state is changed
 
   useEffect(() => {
-    authService.getCurrentUser()
+    authService.getCurrentUser()  //from appwrite auth we get the currentuser
     .then((userData) => {
       if(userData){
-        dispatch(login({userData}))
+        dispatch(login({userData}))  //dispatch login to change state
       }else{
-        dispatch(logout())
+        dispatch(logout()) //if there no user dispatch logout to state is changed
       }
     })
     .finally(() => setLoading(false))
@@ -35,3 +35,4 @@ function App() {
 }
 
 export default App
+
